@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hawaii DOE Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <h1>Hawaii DOE Dashboard</h1>
+    <label for="metric">Metric:</label>
+    <select id="metric">
+      {% for m in metrics %}
+      <option value="{{ m }}">{{ m|title }}</option>
+      {% endfor %}
+    </select>
+    <canvas id="lineChart" width="600" height="400"></canvas>
+    <script>
+      const metricSelect = document.getElementById('metric');
+      let chart;
+
+      async function fetchData(metric) {
+        const res = await fetch(`/data/${metric}`);
+        return await res.json();
+      }
+
+      async function render(metric) {
+        const data = await fetchData(metric);
+        const labels = Object.keys(data.statewide.elementary);
+        const datasets = [
+          {
+            label: 'Statewide',
+            data: labels.map(y => data.statewide.elementary[y]),
+            borderColor: 'blue',
+            fill: false
+          },
+          {
+            label: 'Oahu',
+            data: labels.map(y => data.oahu.elementary[y]),
+            borderColor: 'green',
+            fill: false
+          }
+        ];
+        if (chart) {
+            chart.data.labels = labels;
+            chart.data.datasets = datasets;
+            chart.update();
+        } else {
+            chart = new Chart(document.getElementById('lineChart'), {
+                type: 'line',
+                data: { labels, datasets },
+            });
+        }
+      }
+
+      metricSelect.addEventListener('change', e => render(e.target.value));
+      render(metricSelect.value);
+    </script>
+  </body>
+</html>
