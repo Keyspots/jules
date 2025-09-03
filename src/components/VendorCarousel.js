@@ -11,7 +11,7 @@ export default function VendorCarousel() {
   return (
     <section id="vendors" className="py-5">
       <div className="container">
-        <h2 className="text-center mb-4">Featured Verified Vendors</h2>
+        <h2 className="text-center mb-4">Featured Elite Verified Vendors</h2>
         <div id="vendorCarousel" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-inner">
             {vendors.map((v, i) => (
@@ -24,6 +24,8 @@ export default function VendorCarousel() {
                     <p><i className="fas fa-phone"></i> {v.phone}</p>
                     <a href={v.website} target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-primary">Visit Website</a>
                     {v.verified && <span className="badge bg-success ms-2">Verified</span>}
+                    {(v.luxury || v.premium || v.category?.toLowerCase().includes('luxury') || v.category?.toLowerCase().includes('premium') || v.category?.toLowerCase().includes('design') || v.category?.toLowerCase().includes('custom')) && 
+                      <span className="badge bg-warning text-dark ms-2"><i className="fas fa-crown"></i> Elite</span>}
                   </div>
                 </div>
               </div>
