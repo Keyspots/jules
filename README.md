@@ -1,6 +1,6 @@
-# Pass Area Home Services
+# Jules Elite Home Services
 
-React-based directory for verified local vendors in the Inland Empire region.
+React-based directory for verified luxury vendors and elite service providers in the Inland Empire region.
 
 ## Available Scripts
 
